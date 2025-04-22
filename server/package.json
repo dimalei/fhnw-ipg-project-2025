@@ -1,5 +1,5 @@
 {
-  "name": "server",
+  "name": "ipg-websocket-server",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -8,5 +8,6 @@
   "keywords": [],
   "author": "Dimitri Leimgruebler",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "type": "commonjs"
 }
