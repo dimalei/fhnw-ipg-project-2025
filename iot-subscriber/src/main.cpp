@@ -1,6 +1,7 @@
 #include <Adafruit_NeoPixel.h>
 #include <Arduino.h>
 #include <ArduinoJson.h>
+#include <HTTPClient.h>
 #include <SocketIOclient.h>
 #include <WiFi.h>
 
@@ -46,6 +47,33 @@ void toggleBulb() {
     turnOffBulb();
   } else {
     turnOnBulb();
+  }
+}
+
+void turnOnAll() {
+  HTTPClient http;
+  http.begin("http://86.119.47.104/api/on-all");
+  int responseCode = http.POST("");  // fire and forget
+  USE_SERIAL.print("Response: ");
+  USE_SERIAL.println(responseCode);
+  http.end();
+}
+
+void turnOffAll() {
+  HTTPClient http;
+  http.begin("http://86.119.47.104/api/off-all");
+  int responseCode = http.POST("");  // fire and forget
+  USE_SERIAL.print("Response: ");
+  USE_SERIAL.println(responseCode);
+  http.end();
+}
+
+void toggleAll() {
+  USE_SERIAL.println("Toggling All");
+  if (bulbIsOn) {
+    turnOffAll();
+  } else {
+    turnOnAll();
   }
 }
 
@@ -165,6 +193,9 @@ void setup() {
   pixel.setBrightness(50);
   pixel.clear();
   pixel.show();
+
+  // attach toggle all functionality after wifi is connected.
+  button.attachDoubleClick(toggleAll);
 
   esp_read_mac(macAddress, ESP_MAC_WIFI_STA);
   for (int i = 2; i < 6; i++) {  // Last 4 bytes
