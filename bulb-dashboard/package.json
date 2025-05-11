@@ -1,0 +1,20 @@
+{
+  "name": "server-client-subscriber-demo",
+  "version": "1.0.0",
+  "description": "A demo where a client can turn on or off subscribers through a server.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node backend/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "nodejs-sketchbook"
+  },
+  "author": "dimalei",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.1.0",
+    "socket.io": "^4.8.1"
+  }
+}
