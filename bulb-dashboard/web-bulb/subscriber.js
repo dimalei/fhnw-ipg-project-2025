@@ -53,6 +53,7 @@ function turnOnBulb() {
   isOn = true;
   bulb.classList.add("bulb-on");
   statusString.innerHTML = "Light is ON";
+  forceReloadFavicon("favicon.png");
   socket.emit("turn-on");
 }
 
@@ -60,9 +61,26 @@ function turnOffBulb() {
   isOn = false;
   bulb.classList.remove("bulb-on");
   statusString.innerHTML = "Light is OFF";
+  forceReloadFavicon("favicoff.png");
   socket.emit("turn-off");
 }
 
 button.onclick = () => {
   toggleBulb();
 };
+
+function forceReloadFavicon(newFaviconUrl) {
+  const head = document.querySelector("head");
+  let link = document.querySelector("link[rel*='icon']");
+
+  if (link) {
+    head.removeChild(link);
+  }
+
+  link = document.createElement("link");
+  link.rel = "icon";
+  link.type = "image/x-icon";
+  // Add cache-busting query string
+  link.href = `${newFaviconUrl}?v=${new Date().getTime()}`;
+  head.appendChild(link);
+}

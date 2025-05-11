@@ -3,8 +3,6 @@ body {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  /* font-family: sans-serif; */
-  /* color: black; */
   flex-direction: column;
 }
 
@@ -12,9 +10,6 @@ body {
   height: 200px;
   width: 200px;
   background-color: rgb(48, 48, 48);
-  /* border-style: solid; */
-  /* border-width: 2px; */
-  /* border-color: lightgrey; */
   border-radius: 200px;
   text-align: center;
   align-content: center;
