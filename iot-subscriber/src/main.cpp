@@ -31,15 +31,6 @@ void turnOnBulb() {
   pixel.setPixelColor(0, pixel.Color(255, 255, 200));
   pixel.show();
   bulbIsOn = true;
-
-  // JsonDocument doc;
-  // doc.add("/bulbs");
-  // JsonArray array = doc.to<JsonArray>();
-  // array.add("turn-on");
-  // String output;
-  // serializeJson(doc, output);
-  // socketIO.sendEVENT(output);
-
   socketIO.sendEVENT("/bulbs, [\"turn-on\"]");
 }
 
@@ -47,15 +38,6 @@ void turnOffBulb() {
   pixel.clear();
   pixel.show();
   bulbIsOn = false;
-
-  // JsonDocument doc;
-  // doc.add("/bulbs");
-  // JsonArray array = doc.to<JsonArray>();
-  // array.add("turn-off");
-  // String output;
-  // serializeJson(doc, output);
-  // socketIO.sendEVENT(output);
-
   socketIO.sendEVENT("/bulbs, [\"turn-off\"]");
 }
 
