@@ -8,7 +8,7 @@ const connection = document.getElementById("connection");
 let isOn = false;
 const domain = "bulb-dashboard.dimalei-fhnw-project.xyz";
 
-const socket = io("ws://" + domain + "/bulbs", {
+const socket = io("wss://" + domain + "/bulbs", {
   query: { type: "WebBulb", bulbID: bulbID, isOn: isOn },
 });
 

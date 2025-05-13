@@ -8,7 +8,7 @@ const addBulb = document.getElementById("newBulb");
 const superSectretAuthToken = "1234";
 const domain = "bulb-dashboard.dimalei-fhnw-project.xyz";
 
-const socket = io("ws://" + domain + "/ui", {
+const socket = io("wss://" + domain + "/ui", {
   query: {
     type: "ui",
     token: superSectretAuthToken,
