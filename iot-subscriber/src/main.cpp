@@ -53,7 +53,7 @@ void toggleBulb() {
 void turnOnAll() {
   HTTPClient http;
   char url[100];
-  snprintf(url, sizeof(url), "http://%s/api/on-all", HOST);
+  snprintf(url, sizeof(url), "https://%s/api/on-all", HOST);
   http.begin(url);
   int responseCode = http.GET();  // fire and forget
   USE_SERIAL.print("Response: ");
@@ -64,7 +64,7 @@ void turnOnAll() {
 void turnOffAll() {
   HTTPClient http;
   char url[100];
-  snprintf(url, sizeof(url), "http://%s/api/off-all", HOST);
+  snprintf(url, sizeof(url), "https://%s/api/off-all", HOST);
   http.begin(url);
   int responseCode = http.GET();  // fire and forget
   USE_SERIAL.print("Response: ");
