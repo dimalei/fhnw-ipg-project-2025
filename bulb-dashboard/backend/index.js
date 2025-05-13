@@ -6,7 +6,12 @@ const path = require("path");
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
-  cors: { origin: "*" },
+  cors: {
+    origin: [
+      "http://bulb-dashboard.dimalei-fhnw-project.xyz",
+      "https://bulb-dashboard.dimalei-fhnw-project.xyz",
+    ],
+  },
 });
 
 const port = 3000;
