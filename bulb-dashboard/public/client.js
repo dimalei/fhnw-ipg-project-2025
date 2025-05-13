@@ -47,7 +47,7 @@ offAll.onclick = () => {
 };
 
 addBulb.onclick = () =>{
-  window.open("http://"+domain +"/web-bulb", "_blank");
+  window.open("https://"+domain +"/web-bulb", "_blank");
 }
 
 const refreshUI = () => {
