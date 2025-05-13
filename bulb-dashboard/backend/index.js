@@ -59,14 +59,14 @@ server.listen(port, () => {
   console.log(`Server listening on port http://localhost:${port}`);
 });
 
-app.post("/api/toggle-all", (req, res) => {
+app.get("/api/toggle-all", (req, res) => {
   console.log("All bulbs are toggled.");
   // send to all socket connections
   bulbNamespace.emit("toggle-all");
   res.sendStatus(200);
 });
 
-app.post("/api/toggle", (req, res) => {
+app.get("/api/toggle", (req, res) => {
   const toToggleID = req.query.lightID;
   console.log("toggling ", toToggleID);
   Array.from(bulbNamespace.sockets.values())
@@ -77,14 +77,14 @@ app.post("/api/toggle", (req, res) => {
   res.sendStatus(200);
 });
 
-app.post("/api/on-all", (req, res) => {
+app.get("/api/on-all", (req, res) => {
   console.log("All bulbs are turned on.");
   // send to all socket connections
   bulbNamespace.emit("on-all");
   res.sendStatus(200);
 });
 
-app.post("/api/off-all", (req, res) => {
+app.get("/api/off-all", (req, res) => {
   console.log("All bulbs are turned off.");
   // send to all socket connections
   bulbNamespace.emit("off-all");

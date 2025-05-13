@@ -6,9 +6,9 @@ const button = document.getElementById("toggle");
 const connection = document.getElementById("connection");
 
 let isOn = false;
-const ip = "86.119.47.104:80";
+const domain = "bulb-dashboard.dimalei-fhnw-project.xyz";
 
-const socket = io("ws://" + ip + "/bulbs", {
+const socket = io("ws://" + domain + "/bulbs", {
   query: { type: "WebBulb", bulbID: bulbID, isOn: isOn },
 });
 

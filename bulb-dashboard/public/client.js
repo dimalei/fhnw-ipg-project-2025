@@ -6,11 +6,9 @@ const indicator = document.getElementById("connectionIndicator");
 const addBulb = document.getElementById("newBulb");
 
 const superSectretAuthToken = "1234";
-const ip = "86.119.47.104";
-const port = "80"
+const domain = "bulb-dashboard.dimalei-fhnw-project.xyz";
 
-// initiatie socket
-const socket = io("ws://" + ip + ":" + port + "/ui", {
+const socket = io("ws://" + domain + "/ui", {
   query: {
     type: "ui",
     token: superSectretAuthToken,
@@ -34,22 +32,22 @@ socket.on("refresh-ui", () => {
 
 // Button Actions
 toggleAll.onclick = () => {
-  fetch("/api/toggle-all", { method: "POST" });
+  fetch("/api/toggle-all", { method: "GET" });
   console.log("toggling all");
 };
 
 onAll.onclick = () => {
-  fetch("/api/on-all", { method: "POST" });
+  fetch("/api/on-all", { method: "GET" });
   console.log("turning all on");
 };
 
 offAll.onclick = () => {
-  fetch("/api/off-all", { method: "POST" });
+  fetch("/api/off-all", { method: "GET" });
   console.log("turning all off");
 };
 
 addBulb.onclick = () =>{
-  window.open("http://"+ip +"/web-bulb", "_blank");
+  window.open("http://"+domain +"/web-bulb", "_blank");
 }
 
 const refreshUI = () => {
@@ -86,7 +84,7 @@ const tableEntry = (lightID, type, isOn) => {
   button.innerHTML = isOn ? "ON" : "OFF";
   button.onclick = () => {
     fetch("/api/toggle?lightID=" + encodeURIComponent(lightID), {
-      method: "POST",
+      method: "GET",
     }).then((response) => {
       if (!response.ok) {
         console.error("Failed to toggle light", lightID);

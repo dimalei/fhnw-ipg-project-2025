@@ -21,7 +21,7 @@ bool bulbIsOn = false;
 char bulbID[20] = "ESP32_";
 uint8_t macAddress[6];
 
-#define HOST "86.119.47.104"
+#define HOST "bulb-dashboard.dimalei-fhnw-project.xyz"
 const uint16_t PORT = 80;
 SocketIOclient socketIO;
 unsigned long lastReconnectAttempt = 0;
@@ -52,8 +52,10 @@ void toggleBulb() {
 
 void turnOnAll() {
   HTTPClient http;
-  http.begin("http://86.119.47.104/api/on-all");
-  int responseCode = http.POST("");  // fire and forget
+  char url[100];
+  snprintf(url, sizeof(url), "http://%s/api/on-all", HOST);
+  http.begin(url);
+  int responseCode = http.GET();  // fire and forget
   USE_SERIAL.print("Response: ");
   USE_SERIAL.println(responseCode);
   http.end();
@@ -61,8 +63,10 @@ void turnOnAll() {
 
 void turnOffAll() {
   HTTPClient http;
-  http.begin("http://86.119.47.104/api/off-all");
-  int responseCode = http.POST("");  // fire and forget
+  char url[100];
+  snprintf(url, sizeof(url), "http://%s/api/off-all", HOST);
+  http.begin(url);
+  int responseCode = http.GET();  // fire and forget
   USE_SERIAL.print("Response: ");
   USE_SERIAL.println(responseCode);
   http.end();
