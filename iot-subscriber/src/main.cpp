@@ -3,7 +3,7 @@
 #include <ArduinoJson.h>
 #include <HTTPClient.h>
 #include <SocketIOclient.h>
-#include <WiFi.h>
+#include <WiFiClientSecure.h>
 
 #include "OneButton.h"
 #include "secrets.h"
@@ -51,6 +51,9 @@ void toggleBulb() {
 }
 
 void turnOnAll() {
+  WiFiClientSecure client;
+  client.setInsecure();
+
   HTTPClient http;
   char url[100];
   snprintf(url, sizeof(url), "https://%s/api/on-all", HOST);
@@ -62,6 +65,9 @@ void turnOnAll() {
 }
 
 void turnOffAll() {
+  WiFiClientSecure client;
+  client.setInsecure();
+
   HTTPClient http;
   char url[100];
   snprintf(url, sizeof(url), "https://%s/api/off-all", HOST);
@@ -161,29 +167,35 @@ void socketIOEvent(socketIOmessageType_t type, uint8_t *payload,
 }
 
 void connectSocket() {
+  USE_SERIAL.println("Connecting to Socket ...");
   String url = "/socket.io/?EIO=4&type=IoTBulb&bulbID=";
   url += bulbID;
   url += "&isOn=";
   url += bulbIsOn ? "true" : "false";
 
-  socketIO.begin(HOST, PORT, url);
+  socketIO.beginSSL(HOST, 443, url);
   socketIO.onEvent(socketIOEvent);
 }
 
 void setup() {
   USE_SERIAL.begin(115200);
+  USE_SERIAL.println("Hello, starting now...");
 
   button.setup(BUTTON_PIN, INPUT, false);
   button.attachClick(toggleBulb);
+  USE_SERIAL.println("Attached click action.");
 
   pixel.begin();
   pixel.setBrightness(50);
   pixel.setPixelColor(1, pixel.Color(0, 0, 100));
   pixel.show();
+  USE_SERIAL.println("Pixels initialised.");
 
+  USE_SERIAL.println("Connecting WiFi ...");
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
+    Serial.print(".");
     if (pixel.getBrightness() == 0) {
       pixel.setBrightness(50);
     } else {
@@ -191,6 +203,7 @@ void setup() {
     }
     pixel.show();
   }
+
   USE_SERIAL.println("WiFi Connected");
   USE_SERIAL.println(WiFi.localIP().toString());
 
