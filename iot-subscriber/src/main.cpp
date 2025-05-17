@@ -24,19 +24,26 @@ uint8_t macAddress[6];
 #define HOST "bulb-dashboard.dimalei-fhnw-project.xyz"
 const uint16_t PORT = 80;
 SocketIOclient socketIO;
-unsigned long lastReconnectAttempt = 0;
+unsigned long lastPoTMillis = 0;
+const unsigned int blinkInterval = 500;
 const unsigned long reconnectInterval = 5000;
 
+// TODO: use correct colors
+const uint32_t BLACK = 0x000000FF;  // RGBA format (black with full alpha)
+const uint32_t BLUE = 0x0000FFFF;
+const uint32_t GREEN = 0x00FF00FF;
+const uint32_t RED = 0xFF0000FF;
+const uint32_t WHITE = 0xFFFFC8FF;
+
 void turnOnBulb() {
-  pixel.setBrightness(50);
-  pixel.setPixelColor(0, pixel.Color(255, 255, 200));
+  pixel.setPixelColor(0, WHITE);
   pixel.show();
   bulbIsOn = true;
   socketIO.sendEVENT("/bulbs, [\"turn-on\"]");
 }
 
 void turnOffBulb() {
-  pixel.clear();
+  pixel.setPixelColor(0, BLACK);
   pixel.show();
   bulbIsOn = false;
   socketIO.sendEVENT("/bulbs, [\"turn-off\"]");
@@ -193,22 +200,27 @@ void setup() {
 
   USE_SERIAL.println("Connecting WiFi ...");
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+
   while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
-    Serial.print(".");
-    if (pixel.getBrightness() == 0) {
-      pixel.setBrightness(50);
-    } else {
-      pixel.setBrightness(0);
+    button.tick();
+
+    if (millis() - lastPoTMillis > blinkInterval) {
+      Serial.print(".");
+      // blink wifi led
+      if (pixel.getPixelColor(1) == BLACK) {
+        pixel.setPixelColor(1, BLUE);
+      } else {
+        pixel.setPixelColor(1, BLACK);
+      }
+      pixel.show();
+      lastPoTMillis = millis();
     }
-    pixel.show();
   }
 
   USE_SERIAL.println("WiFi Connected");
   USE_SERIAL.println(WiFi.localIP().toString());
 
-  pixel.setBrightness(50);
-  pixel.clear();
+  pixel.setPixelColor(1, BLACK);
   pixel.show();
 
   // attach toggle all functionality after wifi is connected.
@@ -230,10 +242,20 @@ void loop() {
   socketIO.loop();
   button.tick();
 
-  if (!socketIO.isConnected() &&
-      millis() - lastReconnectAttempt > reconnectInterval) {
+  if (!socketIO.isConnected() && millis() - lastPoTMillis > reconnectInterval) {
     USE_SERIAL.println("Trying to reconnect to Socket.IO server...");
     connectSocket();
-    lastReconnectAttempt = millis();
+    lastPoTMillis = millis();
+  }
+
+  // indicate socket not beeing connected
+  if (!socketIO.isConnected() &&
+      pixel.getPixelColor(1) == pixel.Color(12, 12, 12)) {
+    pixel.setPixelColor(1, RED);
+    pixel.show();
+  }
+  if ((socketIO.isConnected() && pixel.getPixelColor(1) != BLACK)) {
+    pixel.setPixelColor(1, BLACK);
+    pixel.show();
   }
 }
