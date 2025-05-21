@@ -29,11 +29,12 @@ const unsigned int blinkInterval = 500;
 const unsigned long reconnectInterval = 5000;
 
 // TODO: use correct colors
-const uint32_t BLACK = 0x000000FF;  // RGBA format (black with full alpha)
-const uint32_t BLUE = 0x0000FFFF;
-const uint32_t GREEN = 0x00FF00FF;
-const uint32_t RED = 0xFF0000FF;
-const uint32_t WHITE = 0xFFFFC8FF;
+const uint32_t BLACK =
+    pixel.Color(0, 0, 0);  // RGBA format (black with full alpha)
+const uint32_t BLUE = pixel.Color(0, 0, 255);
+const uint32_t GREEN = pixel.Color(0, 255, 0);
+const uint32_t RED = pixel.Color(255, 0, 0);
+const uint32_t WHITE = pixel.Color(255, 255, 255);
 
 void turnOnBulb() {
   pixel.setPixelColor(0, WHITE);
