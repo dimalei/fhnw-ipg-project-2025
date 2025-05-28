@@ -5,13 +5,12 @@ const tableBody = document.getElementById("table-body");
 const indicator = document.getElementById("connectionIndicator");
 const addBulb = document.getElementById("newBulb");
 
-const superSectretAuthToken = "1234";
 const domain = "bulb-dashboard.dimalei-fhnw-project.xyz";
 
 const socket = io("wss://" + domain + "/ui", {
   query: {
     type: "ui",
-    token: superSectretAuthToken,
+    token: "Thank you for reading this! :)",
   },
 });
 

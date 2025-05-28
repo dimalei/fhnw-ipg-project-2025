@@ -19,7 +19,6 @@ const port = 3000;
 // frontent routes
 app.use(express.static(path.join(__dirname, "../public")));
 app.use("/web-bulb", express.static(path.join(__dirname, "../web-bulb")));
-const authToken = "1234";
 
 const bulbNamespace = io.of("/bulbs");
 const uiNamespace = io.of("/ui");
